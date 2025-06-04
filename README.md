@@ -1,4 +1,4 @@
-# 📸 No Stress ELISA
+# 🔬 No Stress ELISA
 > O No Stress ELISA é um programa onde você, pesquisador, estudante ou curioso, pode inserir seus dados provenientes de um leitor de placas ELISA e receber seus dados tratados e organizados sem estresse!
 
 <!------------------------------------>
@@ -35,7 +35,14 @@ TODO!
           <a href="https://github.com/LucasCandinho"><b>Lucas Candinho<b></a>
       </a>
     </td>
+    <td align="center">
+      <a href="#" title="Matheus P. V. da Silveira">
+        <img src="https://avatars.githubusercontent.com/u/192454172?v=4" width="100px;" alt="Foto do Matheus do Github"/><br>
+          <a href="https://github.com/Velky2"><b>Matheus P. V. da Silveira<b></a>
+      </a>
+    </td>
   </tr>
 </table>
 
 <!------------------------------------>
+
