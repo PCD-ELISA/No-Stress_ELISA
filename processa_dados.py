@@ -6,9 +6,9 @@ print("WIP!!!")
 
 
 def retira_branco(df, incerteza_equipamento=0):
-    '''Retira o branco das medidas e propaga o eror por essa operação
+    '''Retira o branco das medidas e propaga o erro por essa operação
     
-    Retorna o data frame sem o branco e retorna a incerteza associada a cada medida
+    Retorna o dataframe sem o branco e retorna a incerteza associada a cada medida
     '''
 
     from math import sqrt, pow
@@ -23,8 +23,6 @@ def retira_branco(df, incerteza_equipamento=0):
 
     return df_sem_branco, incerteza_saida
 
-df_total = pd.read_excel('Teste.xlsx', 'Results')
-print(df_total)
 def recebe_arquivo(nome_do_arquivo):
     # TODO:
     # Receber o arquivo da interface
@@ -36,7 +34,7 @@ def recebe_arquivo(nome_do_arquivo):
     da interface
     '''
 
-    planilha = pd.read_excel(nome_do_arquivo, sheet_name=None)
+    planilha = pd.read_excel(nome_do_arquivo, sheet_name=None, header=1)
     sheet_names = list(planilha.keys())
     metadados = planilha[sheet_names[0]]
     dados_amostrais = planilha[sheet_names[1]]
@@ -50,6 +48,8 @@ def remove_celulas_vazias(dataframes):
 
     ''' 
     Essa função recebe uma tupla de dataframes e remove celulas vazias
+
+    Retorna uma tupla de dataframes com metadados e dados amostrais
     '''
 
     # Inicialmente deletaremos a primeira coluna, pois assumimos que ela sempre será vazia (toda NaN),
@@ -61,11 +61,11 @@ def remove_celulas_vazias(dataframes):
     return dataframes_processados
 
 def separa_amostras(dados_amostrais, layout):
-    # TODO:
-    # Receber o arquivo da interface
-    print("Oi!")
+    # Código aqui
+    pass
 
-print(remove_celulas_vazias(recebe_arquivo("Teste.xlsx")))
+
+
 
 #Vou supor essa arquitetura para o layout:
 
