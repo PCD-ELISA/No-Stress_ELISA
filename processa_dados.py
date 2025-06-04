@@ -1,9 +1,5 @@
 import pandas as pd
-
-print("Aqui a gente processa os dados!!!")
-print("WIP!!!")
-
-
+from math import sqrt, pow
 
 def retira_branco(df, incerteza_equipamento=0):
     '''Retira o branco das medidas e propaga o erro por essa operação
@@ -11,13 +7,11 @@ def retira_branco(df, incerteza_equipamento=0):
     Retorna o dataframe sem o branco e retorna a incerteza associada a cada medida
     '''
 
-    from math import sqrt, pow
-
-    # Defini uma incerteza de equipamento
+    # Define uma incerteza de equipamento
     branco = df['Água'].mean()
-    incerteza_branco = df['Água'].sem() # Importante
+    incerteza_branco = df['Água'].sem() 
     df_sem_branco = df.drop('Água', axis=1)
-    df_sem_branco -= branco # Importante
+    df_sem_branco -= branco 
     # Propagar o erro
     incerteza_saida = sqrt(pow(incerteza_equipamento) + pow(incerteza_branco))
 
@@ -60,15 +54,19 @@ def remove_celulas_vazias(dataframes):
         dataframes_processados.append(data)
     return dataframes_processados
 
-def separa_amostras(dados_amostrais, layout):
-    # Código aqui
-    pass
-
-
+def separa_amostras(layout, dados_amostrais={}):
+    # TODO:
+    # Receber o arquivo da interface
+    dados_organizados = []
+    colunas = []
+    for dado in layout:
+        colunas.append(dado[0])
+    print(colunas)
+    return dados_organizados
 
 
 #Vou supor essa arquitetura para o layout:
 
 layout = [["Água", "A1", "B1"], ["HCl", "A2", "B2"]]
-layout_pandas = pd.DataFrame(layout)
-print(layout_pandas)
+
+separa_amostras(layout)
