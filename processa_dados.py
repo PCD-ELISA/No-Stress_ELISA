@@ -111,12 +111,12 @@ layout_caso_teste = [["Água", "A10", "A11", "A12", "B10", "B11", "B12", "C10", 
 
 layout = layout_para_dataframe(layout_caso_teste)
 dados_amostrais = remove_celulas_vazias(recebe_arquivo('Teste.xlsx'))[1]
-print('layout\n', layout)
-print('dados amostrais\n', dados_amostrais)
+print('Layout\n', layout)
+print('Dados amostrais\n', dados_amostrais)
+print('----------##########----------##########----------##########')
 dados_separados = separa_amostras(layout, dados_amostrais)
-print('separado\n', dados_separados)
-
-print('###################################################################')
+print('Separado\n', dados_separados)
+print('----------##########----------##########----------##########')
 dados_tratados = retira_branco(dados_separados)
-print('tratado\n', dados_tratados[0], '\nincerteza', dados_tratados[1])
-
+print('Tratado\n', dados_tratados[0], '\nincerteza', dados_tratados[1])
+print('----------##########----------##########----------##########')
