@@ -14,7 +14,7 @@ def retira_branco(df, incerteza_equipamento=0):
     df_sem_branco = df.drop('Água', axis=1)
     df_sem_branco -= branco 
     # Propagar o erro
-    incerteza_saida = sqrt(pow(incerteza_equipamento) + pow(incerteza_branco))
+    incerteza_saida = sqrt(pow(incerteza_equipamento, 2) + pow(incerteza_branco, 2))
 
     return df_sem_branco, incerteza_saida
 
@@ -71,7 +71,7 @@ def layout_para_dataframe(layout_provisorio):
     layout_organizado = pd.DataFrame(pocos_transposto, columns=colunas)
     return layout_organizado
 
-def separa_amostras(layout, dados_amostrais={}):
+def separa_amostras2(layout, dados_amostrais={}):
     '''Separa em um dataframe (layout) apenas as absorbâncias de poços que contém uma determinada amostra'''
 
     abs = str(dados_amostrais.columns.tolist()[2])
@@ -85,6 +85,7 @@ def separa_amostras(layout, dados_amostrais={}):
             layout_copy[i] = layout_copy[i].replace(j, (dados_amostrais[abs][indice]))
 
     return layout_copy
+
 
 layout_caso_teste = [["Água", "A10", "A11", "A12", "B10", "B11", "B12", "C10", "C11", "C12"],
                     ["Controle_1_ph2", "A1", "B1", "C1"],
@@ -101,4 +102,12 @@ layout_caso_teste = [["Água", "A10", "A11", "A12", "B10", "B11", "B12", "C10", 
                     ["FeSO4_2_ph8", "F7", "G7", "H7"]]
 
 
+layout = layout_para_dataframe(layout_caso_teste)
+dados_amostrais = remove_celulas_vazias(recebe_arquivo('Teste.xlsx'))[1]
+print('layout\n', layout)
+print('dados amostrais\n', dados_amostrais)
+dados_separados = separa_amostras2(layout, dados_amostrais)
+print('separado\n', dados_separados)
+dados_tratados = retira_branco(dados_separados)
+print('tratado\n', dados_tratados[0], '\nincerteza', dados_tratados[1])
 
