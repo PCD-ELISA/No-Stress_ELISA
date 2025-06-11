@@ -12,7 +12,12 @@ def retira_branco(df, incerteza_equipamento=0):
     branco = df['Água'].mean()
     incerteza_branco = df['Água'].sem() 
     df_sem_branco = df.drop('Água', axis=1)
-    df_sem_branco -= branco 
+    for i in df_sem_branco:
+        for j in df_sem_branco[i]:
+            if j == 'nan':
+                continue
+            df_sem_branco[i] = df_sem_branco[i].replace(j, j-branco)
+    # df_sem_branco -= branco 
     # Propagar o erro
     incerteza_saida = sqrt(pow(incerteza_equipamento, 2) + pow(incerteza_branco, 2))
 
