@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from math import sqrt, pow
 
 def retira_branco(df, incerteza_equipamento=0):
@@ -48,19 +49,46 @@ def remove_celulas_vazias(dataframes):
         dataframes_processados.append(data)
     return dataframes_processados
 
-def separa_amostras(layout, dados_amostrais={}):
-    # TODO:
-    # Receber o arquivo da interface
-    dados_organizados = []
-    colunas = []
-    for dado in layout:
-        colunas.append(dado[0])
-    print(colunas)
+def layout_para_dataframe(layout_provisorio):
+    colunas, pocos = separa_layout(layout_provisorio)
+    pocos = normaliza_lista(pocos)
+    pocos_transposto = np.transpose(pocos)
+    dados_organizados = pd.DataFrame(pocos_transposto, columns=colunas)
     return dados_organizados
+
+def separa_layout(lista_amostras):
+    colunas = []
+    pocos = []
+    for dado in lista_amostras:
+        colunas.append(dado[0])
+        dado.pop(0)
+        pocos.append(dado)
+    return colunas, pocos
+
+def normaliza_lista(lista_amostras):
+    # Gerado pelo ChatGPT
+    maior_num_de_amostras = max(len(amostras) for amostras in lista_amostras) 
+    normalizado = [amostras + [np.nan] * (maior_num_de_amostras - len(amostras)) for amostras in lista_amostras]
+    return normalizado
 
 
 #Vou supor essa arquitetura para o layout:
 
 layout = [["Água", "A1", "B1"], ["HCl", "A2", "B2"]]
 
-print(remove_celulas_vazias(recebe_arquivo("Teste.xlsx")))
+layout_caso_teste = [["Água", "A10", "A11", "A12", "B10", "B11", "B12", "C10", "C11", "C12"],
+                    ["Controle_1_ph2", "A1", "B1", "C1"],
+                    ["Controle_1_ph8", "A5", "B5", "C5"],
+                    ["Controle_2_ph2", "F1", "G1", "H1"],
+                    ["Controle_2_ph8", "F5", "G5", "H5"],
+                    ["CaCl2_1_ph2", "A2", "B2", "C2"],
+                    ["CaCl2_1_ph8", "A6", "B6", "C6"],
+                    ["CaCl2_2_ph2", "F2", "G2", "H2"],
+                    ["CaCl2_2_ph8", "F6", "G6", "H6"],
+                    ["FeSO4_1_ph2", "A3", "B3", "C3"],
+                    ["FeSO4_1_ph8", "A7", "B7", "C7"],
+                    ["FeSO4_2_ph2", "F3", "G3", "H3"],
+                    ["FeSO4_2_ph8", "F7", "G7", "H7"]]
+
+
+print(layout_para_dataframe(layout_caso_teste))
