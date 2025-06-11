@@ -36,21 +36,15 @@ def recebe_arquivo(nome_do_arquivo):
     return metadados, dados_amostrais
     
 def remove_celulas_vazias(dataframes):
-    # TODO:
-    # Remover celulas NaN individuais 
-    # e manter a estrutura de maneira que seja fácil iterar e manipular os dados
-
     ''' 
     Essa função recebe uma tupla de dataframes e remove celulas vazias
 
     Retorna uma tupla de dataframes com metadados e dados amostrais
     '''
-
-    # Inicialmente deletaremos a primeira coluna, pois assumimos que ela sempre será vazia (toda NaN),
-    # porém devemos tratar melhor depois para outros casos
     dataframes_processados = []
     for data in dataframes:
         data = data.drop('Unnamed: 0', axis=1)
+        data = data.dropna()
         dataframes_processados.append(data)
     return dataframes_processados
 
@@ -69,4 +63,4 @@ def separa_amostras(layout, dados_amostrais={}):
 
 layout = [["Água", "A1", "B1"], ["HCl", "A2", "B2"]]
 
-separa_amostras(layout)
+print(remove_celulas_vazias(recebe_arquivo("Teste.xlsx")))
