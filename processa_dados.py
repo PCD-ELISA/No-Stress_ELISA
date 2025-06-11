@@ -54,7 +54,8 @@ def remove_celulas_vazias(dataframes):
         dataframes_processados.append(data)
     return dataframes_processados
 
-def separa_amostras(layout, dados_amostrais={}):
+
+def separa_amostras_jjj(layout, dados_amostrais={}):
     # TODO:
     # Receber o arquivo da interface
     dados_organizados = []
@@ -65,8 +66,30 @@ def separa_amostras(layout, dados_amostrais={}):
     return dados_organizados
 
 
+def separa_amostras2(layout, dados_amostrais={}):
+    '''Separa em um dataframe apenas as absorbâncias de poços que contém uma determinada amostra'''
+
+    abs = str(dados_amostrais.columns.tolist()[2])
+    #layout é uma tabela com colunas de composto químico e poços em que o composto está
+    layout_copy = layout.copy()
+    for i in layout_copy:
+        for j in layout_copy[i]:
+            # Encontra o índice na tabela de dados amostrais correspondente ao poço em que há uma amostra
+            indice = dados_amostrais.index[dados_amostrais['Well'] == j].tolist()[0]
+            # Substitui na cópia do layout o valor das absorbâncias associadas aos poços
+            layout_copy[i] = layout_copy[i].replace(j, (dados_amostrais[abs][indice]))
+    return layout_copy
+
+
+
+
+
 #Vou supor essa arquitetura para o layout:
 
 layout = [["Água", "A1", "B1"], ["HCl", "A2", "B2"]]
+df = pd.read_excel('layout.xlsx')
+print(df)
 
-separa_amostras(layout)
+# print(df.where(df == 'A1').stack().index.tolist())
+a = separa_amostras2(df, remove_celulas_vazias(recebe_arquivo('Teste.xlsx'))[1])
+print(a)
