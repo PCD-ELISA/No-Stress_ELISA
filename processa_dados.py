@@ -8,12 +8,12 @@ def retira_branco(df, incerteza_equipamento=0):
     '''
 
     # Define uma incerteza de equipamento
-    branco = df['Água'].mean()
+    print('branco:', branco)
     incerteza_branco = df['Água'].sem() 
     df_sem_branco = df.drop('Água', axis=1)
     df_sem_branco -= branco 
     # Propagar o erro
-    incerteza_saida = sqrt(pow(incerteza_equipamento) + pow(incerteza_branco))
+    incerteza_saida = sqrt(pow(incerteza_equipamento, 2) + pow(incerteza_branco, 2))
 
     return df_sem_branco, incerteza_saida
 
@@ -65,4 +65,11 @@ def separa_amostras2(layout, dados_amostrais={}):
 
 
 layout = pd.read_excel('layout.xlsx')
+dados_amostrais = remove_celulas_vazias(recebe_arquivo('Teste.xlsx'))[1]
+print('layout\n', layout)
+print('dados amostrais\n', dados_amostrais)
+dados_separados = separa_amostras2(layout, dados_amostrais)
+print('separado\n', dados_separados)
+dados_tratados = retira_branco(dados_separados)
+print('tratado\n', dados_tratados[0], '\nincerteza', dados_tratados[1])
 
