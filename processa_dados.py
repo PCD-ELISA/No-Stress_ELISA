@@ -12,7 +12,12 @@ def retira_branco(df, incerteza_equipamento=0):
     branco = df['Água'].mean()
     incerteza_branco = df['Água'].sem() 
     df_sem_branco = df.drop('Água', axis=1)
-    df_sem_branco -= branco 
+    for i in df:
+        for j in df[i]:
+            if j == 'nan':
+                continue
+            df[i] = df[i].replace(j, j-branco)
+    # df_sem_branco -= branco 
     # Propagar o erro
     incerteza_saida = sqrt(pow(incerteza_equipamento, 2) + pow(incerteza_branco, 2))
 
@@ -71,7 +76,7 @@ def layout_para_dataframe(layout_provisorio):
     layout_organizado = pd.DataFrame(pocos_transposto, columns=colunas)
     return layout_organizado
 
-def separa_amostras2(layout, dados_amostrais={}):
+def separa_amostras(layout, dados_amostrais={}):
     '''Separa em um dataframe (layout) apenas as absorbâncias de poços que contém uma determinada amostra'''
 
     abs = str(dados_amostrais.columns.tolist()[2])
@@ -108,7 +113,7 @@ layout = layout_para_dataframe(layout_caso_teste)
 dados_amostrais = remove_celulas_vazias(recebe_arquivo('Teste.xlsx'))[1]
 print('layout\n', layout)
 print('dados amostrais\n', dados_amostrais)
-dados_separados = separa_amostras2(layout, dados_amostrais)
+dados_separados = separa_amostras(layout, dados_amostrais)
 print('separado\n', dados_separados)
 
 print('###################################################################')
