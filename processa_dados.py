@@ -9,10 +9,15 @@ def retira_branco(df, incerteza_equipamento=0):
     '''
 
     # Define uma incerteza de equipamento
-    print('branco:', branco)
+    branco = df['Água'].mean()
     incerteza_branco = df['Água'].sem() 
     df_sem_branco = df.drop('Água', axis=1)
-    df_sem_branco -= branco 
+    for i in df_sem_branco:
+        for j in df_sem_branco[i]:
+            if j == 'nan':
+                continue
+            df_sem_branco[i] = df_sem_branco[i].replace(j, j-branco)
+    # df_sem_branco -= branco 
     # Propagar o erro
     incerteza_saida = sqrt(pow(incerteza_equipamento, 2) + pow(incerteza_branco, 2))
 
@@ -49,28 +54,6 @@ def remove_celulas_vazias(dataframes):
         dataframes_processados.append(data)
     return dataframes_processados
 
-def layout_para_dataframe(layout_provisorio):
-    colunas, pocos = separa_layout(layout_provisorio)
-    pocos = normaliza_lista(pocos)
-    pocos_transposto = np.transpose(pocos)
-    dados_organizados = pd.DataFrame(pocos_transposto, columns=colunas)
-    return dados_organizados
-
-def separa_amostras2(layout, dados_amostrais={}):
-    '''Separa em um dataframe (layout) apenas as absorbâncias de poços que contém uma determinada amostra'''
-
-    abs = str(dados_amostrais.columns.tolist()[2])
-    #layout é uma tabela com colunas de composto químico e poços em que o composto está
-    layout_copy = layout.copy()
-    for i in layout_copy:
-        for j in layout_copy[i]:
-            # Encontra o índice na tabela de dados amostrais correspondente ao poço em que há uma amostra
-            indice = dados_amostrais.index[dados_amostrais['Well'] == j].tolist()[0]
-            # Substitui na cópia do layout o valor das absorbâncias associadas aos poços
-            layout_copy[i] = layout_copy[i].replace(j, (dados_amostrais[abs][indice]))
-
-    return layout_copy
-
 def separa_layout(lista_amostras):
     colunas = []
     pocos = []
@@ -86,17 +69,30 @@ def normaliza_lista(lista_amostras):
     normalizado = [amostras + [np.nan] * (maior_num_de_amostras - len(amostras)) for amostras in lista_amostras]
     return normalizado
 
+def layout_para_dataframe(layout_provisorio):
+    colunas, pocos = separa_layout(layout_provisorio)
+    pocos = normaliza_lista(pocos)
+    pocos_transposto = np.transpose(pocos)
+    layout_organizado = pd.DataFrame(pocos_transposto, columns=colunas)
+    return layout_organizado
 
-layout = pd.read_excel('layout.xlsx')
-dados_amostrais = remove_celulas_vazias(recebe_arquivo('Teste.xlsx'))[1]
-print('layout\n', layout)
-print('dados amostrais\n', dados_amostrais)
-dados_separados = separa_amostras2(layout, dados_amostrais)
-print('separado\n', dados_separados)
-dados_tratados = retira_branco(dados_separados)
-print('tratado\n', dados_tratados[0], '\nincerteza', dados_tratados[1])
+def separa_amostras(layout, dados_amostrais={}):
+    '''Separa em um dataframe (layout) apenas as absorbâncias de poços que contém uma determinada amostra'''
 
-layout = [["Água", "A1", "B1"], ["HCl", "A2", "B2"]]
+    abs = str(dados_amostrais.columns.tolist()[2])
+    #layout é uma tabela com colunas de composto químico e poços em que o composto está
+    layout_copy = layout.copy()
+    for i in layout_copy:
+        for j in layout_copy[i]:
+            if j == 'nan':
+                continue
+            # Encontra o índice na tabela de dados amostrais correspondente ao poço em que há uma amostra
+            indice = dados_amostrais.index[dados_amostrais['Well'] == j].tolist()[0]
+            # Substitui na cópia do layout o valor das absorbâncias associadas aos poços
+            layout_copy[i] = layout_copy[i].replace(j, (dados_amostrais[abs][indice]))
+
+    return layout_copy
+
 
 layout_caso_teste = [["Água", "A10", "A11", "A12", "B10", "B11", "B12", "C10", "C11", "C12"],
                     ["Controle_1_ph2", "A1", "B1", "C1"],
@@ -113,4 +109,14 @@ layout_caso_teste = [["Água", "A10", "A11", "A12", "B10", "B11", "B12", "C10", 
                     ["FeSO4_2_ph8", "F7", "G7", "H7"]]
 
 
-print(layout_para_dataframe(layout_caso_teste))
+layout = layout_para_dataframe(layout_caso_teste)
+dados_amostrais = remove_celulas_vazias(recebe_arquivo('Teste.xlsx'))[1]
+print('layout\n', layout)
+print('dados amostrais\n', dados_amostrais)
+dados_separados = separa_amostras(layout, dados_amostrais)
+print('separado\n', dados_separados)
+
+print('###################################################################')
+dados_tratados = retira_branco(dados_separados)
+print('tratado\n', dados_tratados[0], '\nincerteza', dados_tratados[1])
+
