@@ -108,7 +108,7 @@ layout = layout_para_dataframe(layout_caso_teste)
 dados_amostrais = remove_celulas_vazias(recebe_arquivo('Teste.xlsx'))[1]
 print('layout\n', layout)
 print('dados amostrais\n', dados_amostrais)
-dados_separados = separa_amostras2(layout, dados_amostrais)
+dados_separados = separa_amostras(layout, dados_amostrais)
 print('separado\n', dados_separados)
 
 print('###################################################################')
