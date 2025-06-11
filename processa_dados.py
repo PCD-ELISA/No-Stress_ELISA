@@ -79,6 +79,8 @@ def separa_amostras2(layout, dados_amostrais={}):
     layout_copy = layout.copy()
     for i in layout_copy:
         for j in layout_copy[i]:
+            if j == 'nan':
+                continue
             # Encontra o índice na tabela de dados amostrais correspondente ao poço em que há uma amostra
             indice = dados_amostrais.index[dados_amostrais['Well'] == j].tolist()[0]
             # Substitui na cópia do layout o valor das absorbâncias associadas aos poços
@@ -108,6 +110,8 @@ print('layout\n', layout)
 print('dados amostrais\n', dados_amostrais)
 dados_separados = separa_amostras2(layout, dados_amostrais)
 print('separado\n', dados_separados)
+
+print('###################################################################')
 dados_tratados = retira_branco(dados_separados)
 print('tratado\n', dados_tratados[0], '\nincerteza', dados_tratados[1])
 
