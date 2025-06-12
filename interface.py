@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 
 #Deixar barra de opções invisível
 hide_menu_style = """
@@ -30,10 +31,50 @@ elif st.session_state.pagina == "Gráfico":
     st.markdown("---", unsafe_allow_html=True)
     radio_btn = st.radio("Qual tipo de gráfico?", options=("Barra", "Linha"))    
     file = st.file_uploader("**1)** Faça o upload de seu arquivo:", type=["xlsx"])
+    st.markdown("**2)** Selecione as concentrações de cada poço")
+
+    # Definindo as linhas e colunas da placa
+    rows = list("ABCDEFGH")
+    cols = list(range(1, 13))
+
+    # Inicializar a matriz se ainda não estiver na sessão
+    if "elisa_matrix" not in st.session_state:
+        matriz = pd.DataFrame(None, index=rows, columns=cols)
+        st.session_state.elisa_matrix = matriz
+
+    # Mostrar a matriz editável
+    edited_matrix = st.data_editor(
+        st.session_state.elisa_matrix,
+        use_container_width=True,
+        num_rows="fixed",
+        hide_index=False
+    )
+
+    # Botão de salvar alterações
+    if st.button("💾 Salvar alterações"):
+        st.session_state.elisa_matrix = edited_matrix
+        st.success("Concentrações atualizadas!")
+
+    # Mostrar matriz salva
+    with st.expander("📊 Ver matriz final"):
+        st.dataframe(st.session_state.elisa_matrix, use_container_width=True)
+
+    # Exportar como CSV
+    st.download_button(
+        label="📥 Baixar como CSV",
+        data=st.session_state.elisa_matrix.to_csv().encode("utf-8"),
+        file_name="matriz_elisa.csv",
+        mime="text/csv"
+    )
+    
     if radio_btn == "Barra":
-        st.markdown("Barra")
+       #Colocar gráfico de barra
+       # Exportar como CSV
+        st.markdown("**3)** Veja o gráfico de barra do seu Elisa:")
     elif radio_btn == "Linha":
-        st.markdown("Linha")
+        #Colocar gráfico de linha
+        st.markdown("**3)** Veja o seu gráfico de linha do seu Elisa:")
+        
 
 
 
