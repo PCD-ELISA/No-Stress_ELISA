@@ -25,7 +25,45 @@ if st.session_state.pagina == "Início":
     st.markdown("<h1 style='text-align: center;'>No-Stress Elisa</h1>", unsafe_allow_html=True)
     st.subheader('Você poderá analisar com precisão dados do leitor de placas "Elisa" automaticamente')
     st.markdown("---", unsafe_allow_html=True)
+    st.header("Equipe:")
+    equipe = [
+        {
+            "nome": "Jõao Roberto B. K. Cruz",
+            "resumo": "Resumo",
+            "imagem": "images/matheus_velloso.jpg",
+            "link": "https://github.com/RobertJbkc"
+        },
+        {
+            "nome": "Lucas Candinho",
+            "resumo": "Resumo",
+            "imagem": "images/matheus_velloso.jpg",
+            "link": "https://github.com/LucasCandinho"
+        },
+        {
+            "nome": "Matheus P. Velloso da Silveira",
+            "resumo": "Cursando bacharel em ciência e tecnologia na Ilum - Escola de Ciência ",
+            "imagem": "images/matheus_velloso.jpg",
+            "link": "https://github.com/Velky2"
+        }
+    ]
+    cols = st.columns(3)
 
+    for col, pessoa in zip(cols, equipe):
+        with col:
+            st.image(
+                pessoa["imagem"], 
+                width=250, 
+                caption=None, 
+                use_container_width=False
+            )
+            st.markdown(f"### {pessoa['nome']}")
+            st.markdown(f"<p style='text-align: justify;'>{pessoa['resumo']}</p>", unsafe_allow_html=True)
+            st.markdown(
+    f'<a href="{pessoa["link"]}" target="_blank">'
+    '<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="50">'
+    '</a>',
+    unsafe_allow_html=True
+)
 elif st.session_state.pagina == "Gráfico":
     st.markdown("<h1 style='text-align: center;'>Gráfico</h1>", unsafe_allow_html=True)
     st.markdown("---", unsafe_allow_html=True)
