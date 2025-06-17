@@ -22,9 +22,35 @@ st.sidebar.button("Código", on_click=lambda: st.session_state.update({"pagina":
 
 # Mostra conteúdo com base no estado
 if st.session_state.pagina == "Início":
+    #Cabeçalho
     st.markdown("<h1 style='text-align: center;'>No-Stress Elisa</h1>", unsafe_allow_html=True)
     st.subheader('Você poderá analisar com precisão dados do leitor de placas "Elisa" automaticamente')
     st.markdown("---", unsafe_allow_html=True)
+    #Explicar sobre Elisa
+    st.header(" 🡆 O que é um Leitor de placas Elisa?")
+    elisa_info = ["images/elisa.png",
+                """
+                O leitor de Elisa (Enzyme-Linked Immunosorbent Assay) é um instrumento laboratorial
+                que usa uma placa de 96 poços de microtitulação. Luz de um comprimento de onda específico
+                incide em cada poço e através da diferença entre a luz emitida e detectada, é medida
+                a absorbância individualmente.
+                """]
+
+    cols1 = st.columns(2)
+    for col, info, indi in zip(cols1, elisa_info, [0,1]):
+            with col:
+                if indi == 0:
+                    st.image(
+                        info, 
+                        width=250, 
+                        caption=None, 
+                        use_container_width=False
+                    )
+                else:
+                    st.markdown(f"{info}")
+
+    st.markdown("---", unsafe_allow_html=True)
+    #Falar sobre a equipe
     st.header("Equipe:")
     equipe = [
         {
@@ -41,14 +67,14 @@ if st.session_state.pagina == "Início":
         },
         {
             "nome": "Matheus P. Velloso da Silveira",
-            "resumo": "Cursando bacharel em ciência e tecnologia na Ilum - Escola de Ciência ",
+            "resumo": "Cursando bacharelado em ciência e tecnologia na Ilum - Escola de Ciência ",
             "imagem": "images/matheus_velloso.jpg",
             "link": "https://github.com/Velky2"
         }
     ]
-    cols = st.columns(3)
+    cols2 = st.columns(3)
 
-    for col, pessoa in zip(cols, equipe):
+    for col, pessoa in zip(cols2, equipe):
         with col:
             st.image(
                 pessoa["imagem"], 
@@ -104,6 +130,8 @@ elif st.session_state.pagina == "Gráfico":
         file_name="matriz_elisa.csv",
         mime="text/csv"
     )
+    concentracao = st.file_uploader("Ou faça upload das concentrações:", type=["xlsx"])
+
     
     if radio_btn == "Barra":
        #Colocar gráfico de barra
@@ -112,9 +140,6 @@ elif st.session_state.pagina == "Gráfico":
     elif radio_btn == "Linha":
         #Colocar gráfico de linha
         st.markdown("**3)** Veja o seu gráfico de linha do seu Elisa:")
-        
-
-
 
 elif st.session_state.pagina == "Código":
     code = """
