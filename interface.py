@@ -16,6 +16,7 @@ if "pagina" not in st.session_state:
 
 # Sidebar com botões
 st.sidebar.button("Início", on_click=lambda: st.session_state.update({"pagina": "Início"}))
+st.sidebar.button("Como usar", on_click=lambda: st.session_state.update({"pagina": "Como usar"}))
 st.sidebar.button("Gráfico", on_click=lambda: st.session_state.update({"pagina": "Gráfico"}))
 st.sidebar.button("Código", on_click=lambda: st.session_state.update({"pagina": "Código"}))
 
@@ -90,6 +91,14 @@ if st.session_state.pagina == "Início":
     '</a>',
     unsafe_allow_html=True
 )
+            
+elif st.session_state.pagina == "Como usar":
+    st.markdown("<h1 style='text-align: center;'>Como usar</h1>", unsafe_allow_html=True)
+    st.subheader("Aprenda a utilizar nossa ferramenta de forma simples")
+    st.markdown("---", unsafe_allow_html=True)
+    
+
+
 elif st.session_state.pagina == "Gráfico":
     st.markdown("<h1 style='text-align: center;'>Gráfico</h1>", unsafe_allow_html=True)
     st.markdown("---", unsafe_allow_html=True)
