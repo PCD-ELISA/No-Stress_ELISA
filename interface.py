@@ -29,27 +29,47 @@ if st.session_state.pagina == "Início":
     st.markdown("---", unsafe_allow_html=True)
     #Explicar sobre Elisa
     st.header(" 🡆 O que é um Leitor de placas Elisa?")
-    elisa_info = ["images/elisa.png",
+    col1, col2 = st.columns([1, 2])
+    with col1:
+            st.image(
+            "images/elisa.png",
+            caption="Leitor de placas ELISA moderno",
+            width=200
+            )
+    with col2:
+            st.markdown("")
+            st.markdown("")
+            st.markdown(
                 """
                 O leitor de Elisa (Enzyme-Linked Immunosorbent Assay) é um instrumento laboratorial
                 que usa uma placa de 96 poços de microtitulação. Luz de um comprimento de onda específico
                 incide em cada poço e através da diferença entre a luz emitida e detectada, é medida
-                a absorbância individualmente.
-                """]
-
-    cols1 = st.columns(2)
-    for col, info, indi in zip(cols1, elisa_info, [0,1]):
-            with col:
-                if indi == 0:
-                    st.image(
-                        info, 
-                        width=250, 
-                        caption=None, 
-                        use_container_width=False
-                    )
-                else:
-                    st.markdown(f"{info}")
-
+                a absorbância ou fluorescência com alta precisão.
+                """)
+    st.markdown("<h3 style='text-align: center;'>Aplicações</h3>", unsafe_allow_html=True)
+    col1, col2, col3 = st.columns([1.28, 1, 1])
+    with col1:
+            st.markdown("""
+                🔬 **Diagnóstico médico**  
+                - Detecção de anticorpos e antígenos
+                - Testes para HIV, hepatite, COVID-19
+                - Diagnóstico de doenças autoimunes
+                        """)
+    with col2:
+            st.markdown("""
+                🧪 **Pesquisa científica**  
+                - Quantificação de proteínas
+                - Estudos imunológicos
+                - Análise de sinalização celular
+                        """)
+    with col3:
+            st.markdown("""
+                🏭 **Controle de qualidade**  
+                - Indústria farmacêutica
+                - Segurança alimentar
+                - Monitoramento ambiental                  
+                """)
+    
     st.markdown("---", unsafe_allow_html=True)
     #Falar sobre a equipe
     st.header("Equipe:")
@@ -96,7 +116,7 @@ elif st.session_state.pagina == "Como usar":
     st.markdown("<h1 style='text-align: center;'>Como usar</h1>", unsafe_allow_html=True)
     st.subheader("Aprenda a utilizar nossa ferramenta de forma simples")
     st.markdown("---", unsafe_allow_html=True)
-    
+
 
 
 elif st.session_state.pagina == "Gráfico":
