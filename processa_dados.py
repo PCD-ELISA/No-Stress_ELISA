@@ -10,7 +10,7 @@ def retira_branco(df, incerteza_equipamento=0):
 
     # Define uma incerteza de equipamento
     branco = df['Água'].mean()
-    incerteza_branco = df['Água'].sem() 
+    incerteza_branco = df['Água'].sem()
     df_sem_branco = df.drop('Água', axis=1)
     for i in df_sem_branco:
         for j in df_sem_branco[i]:
@@ -76,10 +76,10 @@ def layout_para_dataframe(layout_provisorio):
     layout_organizado = pd.DataFrame(pocos_transposto, columns=colunas)
     return layout_organizado
 
-def separa_amostras(layout, dados_amostrais={}):
+def separa_amostras(layout, dados_amostrais={}, abs=2):
     '''Separa em um dataframe (layout) apenas as absorbâncias de poços que contém uma determinada amostra'''
 
-    abs = str(dados_amostrais.columns.tolist()[2])
+    abs = str(dados_amostrais.columns.tolist()[abs])
     #layout é uma tabela com colunas de composto químico e poços em que o composto está
     layout_copy = layout.copy()
     for i in layout_copy:
@@ -92,6 +92,44 @@ def separa_amostras(layout, dados_amostrais={}):
             layout_copy[i] = layout_copy[i].replace(j, (dados_amostrais[abs][indice]))
 
     return layout_copy
+
+
+
+
+
+def separa_namostra(layout, dados_amostrais={}):
+    # Pega as colunas e os índices para formar uma tabela com os comprimentos de onda
+    colunas = layout.columns.tolist()
+    # Retira a coluna de Água pois essa sumirá na função retira branco
+    colunas.pop(0)
+    indice = [i for i in dados_amostrais if i.startswith('A')]
+    
+    # Anexar o valor de absorbância à coordenada Amostra; Comprimento (média, incerteza)
+    lista_dados = []
+    dados = []
+    for i in range(len(indice)):
+
+        dataframe_interno, incerteza = retira_branco(separa_amostras(layout, dados_amostrais, i+2))
+        for coluna in dataframe_interno:
+
+            # Calcula a média; Pandas não queria fazer o serviço
+            soma = 0
+            contador = 0
+            for valor in dataframe_interno[coluna]:
+                if valor == 'nan':
+                    continue
+                soma += valor
+                contador += 1
+            média = soma / contador
+
+            dados.append((média, incerteza))
+        lista_dados.append(dados)
+        dados = []
+
+    df = pd.DataFrame(lista_dados, index=indice, columns=colunas)
+    print(df)
+    
+    return df
 
 
 layout_caso_teste = [["Água", "A10", "A11", "A12", "B10", "B11", "B12", "C10", "C11", "C12"],
@@ -109,14 +147,24 @@ layout_caso_teste = [["Água", "A10", "A11", "A12", "B10", "B11", "B12", "C10", 
                     ["FeSO4_2_ph8", "F7", "G7", "H7"]]
 
 
+df1 = pd.DataFrame([[1, 2, 3], [4, 5, 6]], index=["a", "b"], columns=["x", "y", "z"])
+print(df1)
+
 layout = layout_para_dataframe(layout_caso_teste)
 dados_amostrais = remove_celulas_vazias(recebe_arquivo('Teste.xlsx'))[1]
 print('Layout\n', layout)
 print('Dados amostrais\n', dados_amostrais)
 print('----------##########----------##########----------##########')
-dados_separados = separa_amostras(layout, dados_amostrais)
-print('Separado\n', dados_separados)
-print('----------##########----------##########----------##########')
-dados_tratados = retira_branco(dados_separados)
-print('Tratado\n', dados_tratados[0], '\nincerteza', dados_tratados[1])
-print('----------##########----------##########----------##########')
+
+separa_namostra(layout, dados_amostrais)
+
+
+
+
+# # Pegar as diferentes absorbâncias
+# dados_separados = separa_amostras(layout, dados_amostrais)
+# print('Separado\n', dados_separados)
+# print('----------##########----------##########----------##########')
+# dados_tratados = retira_branco(dados_separados)
+# print('Tratado\n', dados_tratados[0], '\nincerteza', dados_tratados[1])
+# print('----------##########----------##########----------##########')
