@@ -109,27 +109,51 @@ def separa_namostra(layout, dados_amostrais={}):
     dados = []
     for i in range(len(indice)):
 
-        dataframe_interno, incerteza = retira_branco(separa_amostras(layout, dados_amostrais, i+2))
+        dataframe_interno, incerteza = retira_branco(separa_amostras(layout, dados_amostrais, abs=i+2))
+        print(i)
+        print('\n dataframe', dataframe_interno, '\n')    
+        
+        # Faz o dataframe ficar "numérico"
         for coluna in dataframe_interno:
+            dataframe_interno[coluna] = pd.to_numeric(dataframe_interno[coluna], errors='coerce')
+        
 
-            # Calcula a média; Pandas não queria fazer o serviço
-            soma = 0
-            contador = 0
-            for valor in dataframe_interno[coluna]:
-                if valor == 'nan':
-                    continue
-                soma += valor
-                contador += 1
-            média = soma / contador
+        for coluna in dataframe_interno:
+            media = dataframe_interno[coluna].mean()
+            sigma = dataframe_interno[coluna].sem()
+            incerteza_saida = sqrt(pow(sigma, 2) + pow(incerteza, 2))
+            dados.append((media, incerteza_saida))
 
-            dados.append((média, incerteza))
         lista_dados.append(dados)
         dados = []
+
 
     df = pd.DataFrame(lista_dados, index=indice, columns=colunas)
     print(df)
     
     return df
+
+
+    #     for coluna in dataframe_interno:
+
+    #         # Calcula a média; Pandas não queria fazer o serviço
+    #         soma = 0
+    #         contador = 0
+    #         for valor in dataframe_interno[coluna]:
+    #             if valor == 'nan':
+    #                 continue
+    #             soma += valor
+    #             contador += 1
+    #         media = soma / contador
+
+    #         dados.append((media, incerteza))
+    #     lista_dados.append(dados)
+    #     dados = []
+
+    # df = pd.DataFrame(lista_dados, index=indice, columns=colunas)
+    # print(df)
+    
+    # return df
 
 
 layout_caso_teste = [["Água", "A10", "A11", "A12", "B10", "B11", "B12", "C10", "C11", "C12"],
