@@ -6,18 +6,56 @@
 ## 🔎 Sumário
 
 - [Sumário](#🔎-sumário)
-- [Materiais](#-objetivos)
-- [Colaboradores](#🤝-colaboradores)
-- TODO!
+- [Descrição](#-descrição)
+- [Como rodar?](#como-rodar-em-seu-pc)
+- [Professores](#-professores-responsáveis)
+- [Colaboradores](#-colaboradores)
 
 <!------------------------------------>
 
-## 🏆 Objetivos
-TODO!
+## 📝 Descrição
+#### ❓O que é leitor de Elisa?
+O leitor de Elisa (Enzyme-Linked Immunosorbent Assay) é um instrumento laboratorial que usa uma placa de 96 poços de microtitulação. Luz de um comprimento de onda específico incide em cada poço e, através da diferença entre a luz emitida e detectada, é medida a absorbância ou fluorescência com alta precisão.
+
+Os resultados gerados por esse instrumento vêm (nos dispositivos que utilizamos) em uma planilha excel que deve ser tratada para obtermos os dados finais relevantes.
+
+#### ⁉️Qual o estresse então?
+
+Ao receber os dados, como podem ser extensos, a maneira mais fácil de trabalhar com eles é programando para tratar e plotar gráficos com eles.
+
+#### ❗Como vamos resolver esse extresse?
+
+O objetivo desse projeto é receber os dados provenientes de um leitor de Elisa, processar os dados e plotar gráficos relevantes de uma maneira mais simples, por meio de uma interface web, onde o usuário insere os dados necessários e o trabalho bruto é realizado pelo nosso código!
 
 ## Como rodar em seu PC
-TODO!
+🚧 O projeto ainda está em construção, quando terminarmos essa parte aparecerá! 🚧
 
+## 👨‍🏫 Professores responsáveis
+
+> O trabalho realizado não seria possível sem a ajuda desses professores da disciplina Práticas em Ciências de Dados
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="#" title="Prof. Daniel R. Cassar">
+        <img src="https://avatars.githubusercontent.com/u/9871905?v=4" width="100px;" alt="Foto do Daniel do Github"/><br>
+          <a href="https://github.com/drcassar"><b>Prof. Dr. Daniel R. Cassar<b></a>
+      </a>
+    </td>
+    <td align="center">
+      <a href="#" title="Prof. James M. de Almeida">
+        <img src="https://avatars.githubusercontent.com/u/108157661?v=4" width="100px;" alt="Foto do James do Github"/><br>
+          <a href="https://github.com/jamesmalmeida"><b>Prof. Dr. James M. de Almeida<b></a>
+      </a>
+    </td>
+    <td align="center">
+      <a href="#" title="Prof. Leandro N. Lemos">
+        <img src="https://avatars.githubusercontent.com/u/1894434?v=4" width="100px;" alt="Foto do Leandro do Github"/><br>
+          <a href="https://github.com/Velky2"><b>Prof. Dr. Leandro N. Lemos<b></a>
+      </a>
+    </td>
+  </tr>
+</table>
 
 ## 🤝 Colaboradores
 
@@ -43,6 +81,20 @@ TODO!
     </td>
   </tr>
 </table>
+
+### 💪 Como cada colaborador contribuiu?
+
+> João R. K. da Cruz: Atuou no tratamento de dados, entregando estruturas mais fáceis de trabalhar nos outros arquivos.
+
+> Lucas Candinho: Auxiliou no tratamento de dados e construiu a plotagem dos gráficos.
+
+> Matheus P. V. da Silveira: Construiu a interface, conectando com o resto do código.
+
+
+
+
+
+![alt text](https://ilum.cnpem.br/wp-content/uploads/2023/01/Ilum_800px-1536x287.png "Logo da Ilum completa")
 
 <!------------------------------------>
 
