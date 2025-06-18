@@ -43,7 +43,7 @@ if st.session_state.pagina == "Início":
                 """
                 O leitor de Elisa (Enzyme-Linked Immunosorbent Assay) é um instrumento laboratorial
                 que usa uma placa de 96 poços de microtitulação. Luz de um comprimento de onda específico
-                incide em cada poço e através da diferença entre a luz emitida e detectada, é medida
+                incide em cada poço e, através da diferença entre a luz emitida e detectada, é medida
                 a absorbância ou fluorescência com alta precisão.
                 """)
     st.markdown("<h3 style='text-align: center;'>Aplicações</h3>", unsafe_allow_html=True)
@@ -160,15 +160,32 @@ elif st.session_state.pagina == "Gráfico":
         mime="text/csv"
     )
     concentracao = st.file_uploader("Ou faça upload das concentrações:", type=["xlsx"])
+    st.markdown("**3)** Veja o gráfico de barra do seu Elisa:")
+    if st.button("📶 Plotar gráfico"):
+        #Colocar data certa
+        try:
+            if (not concentracao == None) and (not file == None):
+                #Ler excell
+                success = True
+            elif (not st.session_state.elisa_matrix == None) and (not file == None):
+                #ler 
+                pass
+            successs = True
+        except Exception:
+            st.markdown("⚠️ Erro. Não foram enviados os arquivos. ⚠️")
+            success = False
+        finally:
+             if success:
+                  #Tratar file
+                  pass
 
-    
-    if radio_btn == "Barra":
-       #Colocar gráfico de barra
-       # Exportar como CSV
-        st.markdown("**3)** Veja o gráfico de barra do seu Elisa:")
-    elif radio_btn == "Linha":
-        #Colocar gráfico de linha
-        st.markdown("**3)** Veja o seu gráfico de linha do seu Elisa:")
+        if radio_btn == "Barra" and success:
+                pass
+            #Colocar gráfico de barra
+            # Exportar como CSV
+        elif radio_btn == "Linha" and success:
+                pass
+            #Colocar gráfico de linha
 
 elif st.session_state.pagina == "Código":
     code = """
