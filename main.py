@@ -82,8 +82,8 @@ if st.session_state.pagina == "Início":
         },
         {
             "nome": "Lucas Candinho",
-            "resumo": "Resumo",
-            "imagem": "images/matheus_velloso.jpg",
+            "resumo": "Cursando bacharelado em ciência e tecnologia na Ilum - Escola de Ciência ",
+            "imagem": "images/lucas_candinho.jpg",
             "link": "https://github.com/LucasCandinho"
         },
         {
@@ -117,23 +117,20 @@ elif st.session_state.pagina == "Como usar":
     st.subheader("Aprenda a utilizar nossa ferramenta de forma simples")
     st.markdown("---", unsafe_allow_html=True)
 
-
-
 elif st.session_state.pagina == "Gráfico":
     st.markdown("<h1 style='text-align: center;'>Gráfico</h1>", unsafe_allow_html=True)
     st.markdown("---", unsafe_allow_html=True)
     radio_btn = st.radio("Qual tipo de gráfico?", options=("Barra", "Linha"))    
     file = st.file_uploader("**1)** Faça o upload de seu arquivo:", type=["xlsx"])
-    st.markdown("**2)** Selecione as concentrações de cada poço")
+    st.markdown("**2)** Selecione o contido em cada poço")
 
     # Definindo as linhas e colunas da placa
     rows = list("ABCDEFGH")
-    cols = list(range(1, 13))
+    cols = [str(i) for i in range(1, 13)]
 
     # Inicializar a matriz se ainda não estiver na sessão
     if "elisa_matrix" not in st.session_state:
-        matriz = pd.DataFrame(None, index=rows, columns=cols)
-        st.session_state.elisa_matrix = matriz
+        st.session_state.elisa_matrix = pd.DataFrame("", index=rows, columns=cols)
 
     # Mostrar a matriz editável
     edited_matrix = st.data_editor(
@@ -145,7 +142,7 @@ elif st.session_state.pagina == "Gráfico":
 
     # Botão de salvar alterações
     if st.button("💾 Salvar alterações"):
-        st.session_state.elisa_matrix = edited_matrix
+        st.session_state.elisa_matrix = edited_matrix.fillna("")
         st.success("Concentrações atualizadas!")
 
     # Mostrar matriz salva
@@ -159,33 +156,59 @@ elif st.session_state.pagina == "Gráfico":
         file_name="matriz_elisa.csv",
         mime="text/csv"
     )
-    concentracao = st.file_uploader("Ou faça upload das concentrações:", type=["xlsx"])
+    
+    dados = st.file_uploader("Ou faça upload das informações:", type=["xlsx"])
     st.markdown("**3)** Veja o gráfico de barra do seu Elisa:")
+    
     if st.button("📶 Plotar gráfico"):
-        #Colocar data certa
         try:
-            if (not concentracao == None) and (not file == None):
-                #Ler excell
-                success = True
-            elif (not st.session_state.elisa_matrix == None) and (not file == None):
-                #ler 
+            if file is None:
+                st.error("⚠️ Por favor, envie o arquivo principal (leitor de placas)")
+                raise ValueError("Arquivo principal não enviado")
+            
+            if dados is not None:
+                # Caso 1: Tratar arquivo Excel
+                data = pd.read_excel(dados)
+                st.success("Dados do Excel carregados com sucesso!")
+                
+            else:
+                # Caso 2: Processar matriz analógica
+                if st.session_state.elisa_matrix.empty:
+                    st.error("⚠️ A matriz está vazia. Preencha ou envie um arquivo.")
+                    raise ValueError("Matriz vazia")
+                
+                layout = {}
+                for i in rows:
+                    for j in cols:
+                        tmp = st.session_state.elisa_matrix.loc[i, j]
+                        # Verifica se o valor é válido (não vazio, não None, não NaN)
+                        if pd.isna(tmp) or str(tmp).strip() in ["", "0", "None", "-"]:
+                            continue
+                        
+                        # Adiciona ao dicionário
+                        if tmp not in layout:
+                            layout[tmp] = [f"{i}{j}"]
+                        else:
+                            layout[tmp].append(f"{i}{j}")
+                
+                # Cria a lista de listas no formato [nome, posições]
+                data_info = [[k] + v for k, v in layout.items()]
+                print("Dados processados com sucesso:", data_info)
+                
+            
+            # Plotar gráficos
+            if radio_btn == "Barra":
+                # Exemplo simples de gráfico de barras
                 pass
-            successs = True
-        except Exception:
-            st.markdown("⚠️ Erro. Não foram enviados os arquivos. ⚠️")
-            success = False
-        finally:
-             if success:
-                  #Tratar file
-                  pass
-
-        if radio_btn == "Barra" and success:
+            elif radio_btn == "Linha":
+                # Exemplo simples de gráfico de linha
                 pass
-            #Colocar gráfico de barra
-            # Exportar como CSV
-        elif radio_btn == "Linha" and success:
-                pass
-            #Colocar gráfico de linha
+                
+        except Exception as e:
+            st.error(f"⚠️ Erro ao processar os dados: {e}")
+            # Para debug - mostra o erro completo no console
+            import traceback
+            traceback.print_exc()
 
 elif st.session_state.pagina == "Código":
     code = """
