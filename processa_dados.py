@@ -3,7 +3,9 @@ import numpy as np
 from math import sqrt, pow
 
 def retira_branco(df, incerteza_equipamento=0):
-    '''Retira o branco das medidas e propaga o erro por essa operação
+    '''Retira o branco das medidas e propaga o erro por essa operação. O erro é a raiz quadrada
+    da soma dos quadrados das incertezas.
+    As incertezas concideradas sõa o erro do equipamento e a incerteza padrão
     
     Retorna o dataframe sem o branco e retorna a incerteza associada a cada medida
     '''
@@ -54,6 +56,7 @@ def remove_celulas_vazias(dataframes):
         dataframes_processados.append(data)
     return dataframes_processados
 
+
 def separa_layout(lista_amostras):
     colunas = []
     pocos = []
@@ -76,8 +79,16 @@ def layout_para_dataframe(layout_provisorio):
     layout_organizado = pd.DataFrame(pocos_transposto, columns=colunas)
     return layout_organizado
 
-def separa_amostras(layout, dados_amostrais={}, abs=2):
-    '''Separa em um dataframe (layout) apenas as absorbâncias de poços que contém uma determinada amostra'''
+
+def substitui(layout, dados_amostrais={}, abs=2):
+    '''Separa em um dataframe (layout) apenas as absorbâncias de poços que contém uma determinada amostra
+    
+    Faz isso substituindo os poços (A1, A2, ...,) pelas absorbâncias medidas nesses poços.
+    O parâmetro "abs" indica em qual comprimento de onda a medida de absorbancia foi realizada.
+    "abs" >= 2
+
+    Essa função lê apenas um comprimento de onda por vez
+    '''
 
     abs = str(dados_amostrais.columns.tolist()[abs])
     #layout é uma tabela com colunas de composto químico e poços em que o composto está
@@ -93,10 +104,6 @@ def separa_amostras(layout, dados_amostrais={}, abs=2):
 
     return layout_copy
 
-
-
-
-
 def separa_namostra(layout, dados_amostrais={}):
     # Pega as colunas e os índices para formar uma tabela com os comprimentos de onda
     colunas = layout.columns.tolist()
@@ -109,28 +116,52 @@ def separa_namostra(layout, dados_amostrais={}):
     dados = []
     for i in range(len(indice)):
 
-        dataframe_interno, incerteza = retira_branco(separa_amostras(layout, dados_amostrais, i+2))
+        dataframe_interno, incerteza = retira_branco(substitui(layout, dados_amostrais, abs=i+2))
+        print(i)
+        print('\n dataframe', dataframe_interno, '\n')    
+        
+        # Faz o dataframe ficar "numérico"
         for coluna in dataframe_interno:
+            dataframe_interno[coluna] = pd.to_numeric(dataframe_interno[coluna], errors='coerce')
 
-            # Calcula a média; Pandas não queria fazer o serviço
-            soma = 0
-            contador = 0
-            for valor in dataframe_interno[coluna]:
-                if valor == 'nan':
-                    continue
-                soma += valor
-                contador += 1
-            média = soma / contador
+        
 
-            dados.append((média, incerteza))
+        for coluna in dataframe_interno:
+            media = dataframe_interno[coluna].mean()
+            sigma = dataframe_interno[coluna].sem()
+            incerteza_saida = sqrt(pow(sigma, 2) + pow(incerteza, 2))
+            dados.append((media, incerteza_saida))
+
         lista_dados.append(dados)
         dados = []
+
 
     df = pd.DataFrame(lista_dados, index=indice, columns=colunas)
     print(df)
     
     return df
 
+
+    #     for coluna in dataframe_interno:
+
+    #         # Calcula a média; Pandas não queria fazer o serviço
+    #         soma = 0
+    #         contador = 0
+    #         for valor in dataframe_interno[coluna]:
+    #             if valor == 'nan':
+    #                 continue
+    #             soma += valor
+    #             contador += 1
+    #         media = soma / contador
+
+    #         dados.append((media, incerteza))
+    #     lista_dados.append(dados)
+    #     dados = []
+
+    # df = pd.DataFrame(lista_dados, index=indice, columns=colunas)
+    # print(df)
+    
+    # return df
 
 layout_caso_teste = [["Água", "A10", "A11", "A12", "B10", "B11", "B12", "C10", "C11", "C12"],
                     ["Controle_1_ph2", "A1", "B1", "C1"],
@@ -147,9 +178,6 @@ layout_caso_teste = [["Água", "A10", "A11", "A12", "B10", "B11", "B12", "C10", 
                     ["FeSO4_2_ph8", "F7", "G7", "H7"]]
 
 
-df1 = pd.DataFrame([[1, 2, 3], [4, 5, 6]], index=["a", "b"], columns=["x", "y", "z"])
-print(df1)
-
 layout = layout_para_dataframe(layout_caso_teste)
 dados_amostrais = remove_celulas_vazias(recebe_arquivo('Teste.xlsx'))[1]
 print('Layout\n', layout)
@@ -157,14 +185,3 @@ print('Dados amostrais\n', dados_amostrais)
 print('----------##########----------##########----------##########')
 
 separa_namostra(layout, dados_amostrais)
-
-
-
-
-# # Pegar as diferentes absorbâncias
-# dados_separados = separa_amostras(layout, dados_amostrais)
-# print('Separado\n', dados_separados)
-# print('----------##########----------##########----------##########')
-# dados_tratados = retira_branco(dados_separados)
-# print('Tratado\n', dados_tratados[0], '\nincerteza', dados_tratados[1])
-# print('----------##########----------##########----------##########')
