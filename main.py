@@ -156,8 +156,9 @@ elif st.session_state.pagina == "Gráfico":
         file_name="matriz_elisa.csv",
         mime="text/csv"
     )
-    
-    dados = st.file_uploader("Ou faça upload das informações:", type=["xlsx"])
+    st.markdown("Ou faça upload das informações:")
+    dados = st.file_uploader("""Obs.: O Excel deverá ter informações de A a H representando as linhas da placa 
+                             e de 1 a 12 representando as colunas""", type=["xlsx"])
     st.markdown("**3)** Veja o gráfico de barra do seu Elisa:")
     
     if st.button("📶 Plotar gráfico"):
@@ -166,13 +167,31 @@ elif st.session_state.pagina == "Gráfico":
                 st.error("⚠️ Por favor, envie o arquivo principal (leitor de placas)")
                 raise ValueError("Arquivo principal não enviado")
             
-            if dados is not None:
-                # Caso 1: Tratar arquivo Excel
-                data = pd.read_excel(dados)
-                st.success("Dados do Excel carregados com sucesso!")
+            elif dados is not None:
+                #Matriz do Excel
+                try:
+                    data = pd.read_excel(dados, header=None)
+                    data.columns = list("ABCDEFGH")[:data.shape[1]]
+                    data.index = range(1, data.shape[0] + 1)
+                    layout = {}
+                    for coluna in data.columns:
+                        for linha in data.index:
+                            valor = str(data.loc[linha, coluna]).strip()
+                            if valor not in ["", "nan", "0", "None"]:
+                                posicao = f"{coluna}{linha}"
+                                if valor not in layout:
+                                    layout[valor] = [posicao]
+                                else:
+                                    layout[valor].append(posicao)
+                    
+                    data_info = [[k] + v for k, v in layout.items()]
+                    st.success("Dados processados com sucesso!")
+        
+                except Exception as e:
+                    st.error(f"Erro ao processar arquivo: {str(e)}")
                 
             else:
-                # Caso 2: Processar matriz analógica
+                # Matriz Analógica
                 if st.session_state.elisa_matrix.empty:
                     st.error("⚠️ A matriz está vazia. Preencha ou envie um arquivo.")
                     raise ValueError("Matriz vazia")
@@ -181,34 +200,24 @@ elif st.session_state.pagina == "Gráfico":
                 for i in rows:
                     for j in cols:
                         tmp = st.session_state.elisa_matrix.loc[i, j]
-                        # Verifica se o valor é válido (não vazio, não None, não NaN)
                         if pd.isna(tmp) or str(tmp).strip() in ["", "0", "None", "-"]:
                             continue
-                        
-                        # Adiciona ao dicionário
                         if tmp not in layout:
                             layout[tmp] = [f"{i}{j}"]
                         else:
                             layout[tmp].append(f"{i}{j}")
-                
-                # Cria a lista de listas no formato [nome, posições]
                 data_info = [[k] + v for k, v in layout.items()]
-                print("Dados processados com sucesso:", data_info)
+                st.success("Dados da Matriz carregados com sucesso!")
                 
             
             # Plotar gráficos
             if radio_btn == "Barra":
-                # Exemplo simples de gráfico de barras
                 pass
             elif radio_btn == "Linha":
-                # Exemplo simples de gráfico de linha
                 pass
-                
-        except Exception as e:
-            st.error(f"⚠️ Erro ao processar os dados: {e}")
-            # Para debug - mostra o erro completo no console
-            import traceback
-            traceback.print_exc()
+        except Exception:
+             st.markdown("Não foi possível plotar seu gráfico. Verifique se os arquivos correspondem ao solicitado")
+             
 
 elif st.session_state.pagina == "Código":
     code = """
