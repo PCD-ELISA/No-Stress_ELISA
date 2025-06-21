@@ -131,6 +131,7 @@ elif st.session_state.pagina == "Gráfico":
     radio_btn = st.radio("Qual tipo de gráfico?", options=("Barra", "Linha"))    
     file = st.file_uploader("**1)** Faça o upload de seu arquivo:", type=["xlsx"])
     st.markdown("**2)** Selecione o contido em cada poço")
+    st.markdown("(Poços com água devem ser escritos como Água)")
 
     # Definindo as linhas e colunas da placa
     rows = list("ABCDEFGH")
