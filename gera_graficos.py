@@ -7,6 +7,19 @@ import io
 from PIL import Image
 
 def plot_absorbancia(dados_df, tipo_grafico="barra"):
+    """
+    Gera um gráfico de absorbância para diferentes amostras e comprimentos de onda.
+
+    Parâmetros:
+        dados_df (DataFrame): DataFrame com tuplas (média, incerteza) como valores e 
+                              comprimentos de onda como índices.
+
+        tipo_grafico (str): Tipo de gráfico a ser gerado. Pode ser de barra ou linha.
+
+    Retorno:
+        PIL.Image: Imagem gerada do gráfico.
+    """
+
     dados = []
     for absorbancia in dados_df.index:
         for amostra in dados_df.columns:
@@ -18,32 +31,20 @@ def plot_absorbancia(dados_df, tipo_grafico="barra"):
                 "Incerteza": incerteza
             })
 
-    print(dados)
     df_plot = pd.DataFrame(dados)
-    print(df_plot)
 
-    p = so.Plot(df_plot, x="Amostra", y="Média", color="Absorbância")
+    plotagem = so.Plot(df_plot, x="Amostra", y="Média", color="Absorbância")
 
     if tipo_grafico == "barra":
-        p = p.add(so.Bar(), so.Dodge())
+        plotagem = plotagem.add(so.Bar(), so.Dodge())
     elif tipo_grafico == "linha":
-        p = p.add(so.Line(marker="o"))
+        plotagem = plotagem.add(so.Line(marker="o"))
     else:
         raise ValueError("tipo_grafico deve ser 'barra' ou 'linha'.")
 
-    p = p.label(x="Amostras", y="Absorbância (u.a.)")
+    plotagem = plotagem.label(x="Amostras", y="Absorbância (u.a.)")
 
-    buf = io.BytesIO()
-    p.save(buf, format="png")
-    buf.seek(0)
-    return Image.open(buf)
-
-df_exemplo = pd.DataFrame({
-    "Amostra1": [(0.52, 0.03), (0.68, 0.05), (0.75, 0.04)],
-    "Amostra2": [(0.49, 0.02), (0.65, 0.06), (0.78, 0.05)],
-    "Amostra3": [(0.55, 0.04), (0.63, 0.05), (0.80, 0.03)],
-}, index=["Abs1", "Abs2", "Abs3"])
-
-print(df_exemplo)
-
-plot_absorbancia(df_exemplo)
+    buffer = io.BytesIO()
+    plotagem.save(buffer, format="png")
+    buffer.seek(0)
+    return Image.open(buffer)
