@@ -1,5 +1,13 @@
 import streamlit as st
 import pandas as pd
+from processa_dados import layout_para_dataframe
+from processa_dados import remove_celulas_vazias
+from processa_dados import recebe_arquivo
+from processa_dados import separa_namostra
+from gera_graficos import plot_absorbancia
+import traceback
+import io
+from PIL import Image
 
 #Deixar barra de opções invisível
 hide_menu_style = """
@@ -209,14 +217,50 @@ elif st.session_state.pagina == "Gráfico":
                 data_info = [[k] + v for k, v in layout.items()]
                 st.success("Dados da Matriz carregados com sucesso!")
                 
-            
-            # Plotar gráficos
+            #Processar dados
+
+            layout = layout_para_dataframe(data_info)
+            dados_amostrais = remove_celulas_vazias(recebe_arquivo(file))[1]
+            dados_df = separa_namostra(layout, dados_amostrais)
+
+            #Plotar gráficos
             if radio_btn == "Barra":
-                pass
+                imagem_grafico = plot_absorbancia(dados_df, "barra")
+                st.image(
+                        imagem_grafico,
+                        width=800
+                        )
+                buf = io.BytesIO()
+                imagem_grafico.save(buf, format="PNG")
+                buf.seek(0)
+    
+                st.download_button(
+                    label="📥 Baixar gráfico como PNG",
+                    data=buf,
+                    file_name="grafico_absorbancia_barra.png",
+                    mime="image/png"
+                )
+
             elif radio_btn == "Linha":
-                pass
+                imagem_grafico = plot_absorbancia(dados_df, "linha")
+                st.image(
+                        imagem_grafico,
+                        width=800
+                        )
+                buf = io.BytesIO()
+                imagem_grafico.save(buf, format="PNG")
+                buf.seek(0)
+    
+                st.download_button(
+                    label="📥 Baixar gráfico como PNG",
+                    data=buf,
+                    file_name="grafico_absorbancia_linha.png",
+                    mime="image/png"
+                )
+
         except Exception:
              st.markdown("Não foi possível plotar seu gráfico. Verifique se os arquivos correspondem ao solicitado")
+             print(traceback.format_exc())
              
 
 elif st.session_state.pagina == "Código":

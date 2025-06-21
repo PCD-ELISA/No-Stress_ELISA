@@ -3,6 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import seaborn.objects as so
+import io
+from PIL import Image
 
 def plot_absorbancia(dados_df, tipo_grafico="barra"):
     dados = []
@@ -30,7 +32,11 @@ def plot_absorbancia(dados_df, tipo_grafico="barra"):
         raise ValueError("tipo_grafico deve ser 'barra' ou 'linha'.")
 
     p = p.label(x="Amostras", y="Absorbância (u.a.)")
-    p.show()
+
+    buf = io.BytesIO()
+    p.save(buf, format="png")
+    buf.seek(0)
+    return Image.open(buf)
 
 df_exemplo = pd.DataFrame({
     "Amostra1": [(0.52, 0.03), (0.68, 0.05), (0.75, 0.04)],
