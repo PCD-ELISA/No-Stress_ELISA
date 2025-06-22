@@ -136,6 +136,8 @@ def retira_branco(df, incerteza_equipamento=0):
         incerteza_saida: Incerteza final.
     """
 
+    for coluna in df:
+            df[coluna] = pd.to_numeric(df[coluna], errors='coerce')
     branco = df['Água'].mean()
     incerteza_branco = df['Água'].sem()
     df_sem_branco = df.drop('Água', axis=1)
