@@ -242,7 +242,7 @@ elif st.session_state.pagina == "Gráfico":
                 imagem_grafico = plot_absorbancia(dados_df, "barra")
                 st.image(
                         imagem_grafico,
-                        width=800
+                        width=1400
                         )
                 buf = io.BytesIO()
                 imagem_grafico.save(buf, format="PNG")
@@ -259,7 +259,7 @@ elif st.session_state.pagina == "Gráfico":
                 imagem_grafico = plot_absorbancia(dados_df, "linha")
                 st.image(
                         imagem_grafico,
-                        width=800
+                        width=1400
                         )
                 buf = io.BytesIO()
                 imagem_grafico.save(buf, format="PNG")

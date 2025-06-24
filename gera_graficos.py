@@ -32,19 +32,24 @@ def plot_absorbancia(dados_df, tipo_grafico="barra"):
             })
 
     df_plot = pd.DataFrame(dados)
+    df_plot["Absorbância"] = df_plot["Absorbância"].astype(str)
 
-    plotagem = so.Plot(df_plot, x="Amostra", y="Média", color="Amostra")
+    plotagem = so.Plot(df_plot, x="Amostra", y="Média", color="Absorbância")
 
+    plt.figure(figsize=(10, 6))
+    
     if tipo_grafico == "barra":
-        plotagem = plotagem.add(so.Bar(), so.Dodge())
+        sns.barplot(data=df_plot, x="Amostra", y="Média", hue="Absorbância")
     elif tipo_grafico == "linha":
-        plotagem = plotagem.add(so.Line(marker="o"))
-    else:
-        raise ValueError("tipo_grafico deve ser 'barra' ou 'linha'.")
-
-    plotagem = plotagem.label(x="Amostras", y="Absorbância (u.a.)")
+        sns.lineplot(data=df_plot, x="Amostra", y="Média", hue="Absorbância", marker="o")
+    
+    plt.xlabel("Amostras")
+    plt.ylabel("Absorbância (u.a.)")
+    plt.legend(title="Comprimento de onda", bbox_to_anchor=(1.05, 0.5), loc='center left')
+    plt.tight_layout()
 
     buffer = io.BytesIO()
-    plotagem.save(buffer, format="png")
+    plt.savefig(buffer, format="png", bbox_inches="tight")
     buffer.seek(0)
+    plt.close()
     return Image.open(buffer)
