@@ -160,16 +160,24 @@ elif st.session_state.pagina == "Gráfico":
     with st.expander("📊 Ver matriz final"):
         st.dataframe(st.session_state.elisa_matrix, use_container_width=True)
 
-    # Exportar como XLSX
     excel_buffer = io.BytesIO()
-    with pd.ExcelWriter(excel_buffer, engine='openpyxl') as writer:
-        st.session_state.elisa_matrix.to_excel(writer, index=True, sheet_name='Matriz_ELISA')
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Matriz_ELISA"
+    for row_letter in rows:
+        for col_number in cols:
+            cell_value = st.session_state.elisa_matrix.loc[row_letter, col_number]
+            cell_name = f"{row_letter}{col_number}"
+            ws[cell_name] = cell_value
+    wb.save(excel_buffer)
+    excel_buffer.seek(0)
     st.download_button(
         label="📥 Baixar como Excel (XLSX)",
         data=excel_buffer.getvalue(),
         file_name="matriz_elisa.xlsx",
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
+
     st.markdown("Ou faça upload das informações:")
     dados = st.file_uploader("""Obs.: O Excel deverá ter informações de A a H representando as linhas da placa 
                              e de 1 a 12 representando as colunas""", type=["xlsx"])
