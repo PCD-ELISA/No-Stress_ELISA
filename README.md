@@ -28,7 +28,14 @@ Ao receber os dados, como podem ser extensos, a maneira mais fácil de trabalhar
 O objetivo desse projeto é receber os dados provenientes de um leitor de Elisa, processar os dados e plotar gráficos relevantes de uma maneira mais simples, por meio de uma interface web, onde o usuário insere os dados necessários e o trabalho bruto é realizado pelo nosso código!
 
 ## Como rodar em seu PC
-🚧 O projeto ainda está em construção, quando terminarmos essa parte aparecerá! 🚧
+📋 Pré-requisitos:
+1. Instale o Python em seu computador. Recomendamos a versão 3.10.
+2. Instale todas as bibliotecas necessárias. No VsCode, use o comando:
+pip install streamlit pandas pillow numpy matplotlib seaborn
+▶️ Executando a aplicação
+1. Digite em seu terminal:
+python -m streamlit run main.py
+2. O aplicativo deve abrir em seu navegador padrão automaticamente.
 
 ## 👨‍🏫 Professores responsáveis
 
