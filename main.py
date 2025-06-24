@@ -124,10 +124,6 @@ elif st.session_state.pagina == "Como usar":
     st.markdown("<h1 style='text-align: center;'>Como usar</h1>", unsafe_allow_html=True)
     st.subheader("Aprenda a utilizar nossa ferramenta de forma simples")
     st.markdown("---", unsafe_allow_html=True)
-
-    st.markdown("<h1 style='text-align: center;'>Como usar</h1>", unsafe_allow_html=True)
-    st.subheader("Aprenda a utilizar nossa ferramenta de forma simples")
-    st.markdown("---", unsafe_allow_html=True)
     st.video("images/nostressexplanation.mp4")
 
 elif st.session_state.pagina == "Gráfico":
