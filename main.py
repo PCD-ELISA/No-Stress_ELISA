@@ -269,6 +269,14 @@ elif st.session_state.pagina == "Código":
     st.markdown("<h1 style='text-align: center;'>Código</h1>", unsafe_allow_html=True)
     st.subheader("Veja o código em python usado para tratamento de dados e plotagem do gráfico")
     st.markdown("---", unsafe_allow_html=True)
+    st.markdown("Para mais informações, acesse nosso repositório no Github:")
+    st.markdown(
+    f'<a href="{'https://github.com/PCD-ELISA/No-Stress_ELISA'}" target="_blank">'
+    '<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="50">'
+    '</a>',
+    unsafe_allo
+    st.markdown("---", unsafe_allow_html=True)
+        
     code_gera_graficos = '''
 def plot_absorbancia(dados_df, tipo_grafico="barra"):
     """
