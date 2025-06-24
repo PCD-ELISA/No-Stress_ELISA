@@ -272,7 +272,7 @@ elif st.session_state.pagina == "Código":
     st.markdown("Para mais informações, acesse nosso repositório no Github:")
     st.markdown(
     f'<a href="{'https://github.com/PCD-ELISA/No-Stress_ELISA'}" target="_blank">'
-    '<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="50">'
+    '<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="250">'
     '</a>',
     unsafe_allo
     st.markdown("---", unsafe_allow_html=True)
