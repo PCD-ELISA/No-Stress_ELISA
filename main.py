@@ -163,7 +163,7 @@ elif st.session_state.pagina == "Gráfico":
     # Exportar como XLSX
     excel_buffer = io.BytesIO()
     with pd.ExcelWriter(excel_buffer, engine='openpyxl') as writer:
-    st.session_state.elisa_matrix.to_excel(writer, index=True, sheet_name='Matriz_ELISA')
+        st.session_state.elisa_matrix.to_excel(writer, index=True, sheet_name='Matriz_ELISA')
     st.download_button(
         label="📥 Baixar como Excel (XLSX)",
         data=excel_buffer.getvalue(),
