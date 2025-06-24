@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import seaborn.objects as so
 import io
 from PIL import Image
 
@@ -14,12 +13,13 @@ def plot_absorbancia(dados_df, tipo_grafico="barra"):
         dados_df (DataFrame): DataFrame com tuplas (média, incerteza) como valores e 
                               comprimentos de onda como índices.
 
-        tipo_grafico (str): Tipo de gráfico a ser gerado. Pode ser de barra ou linha.
+        tipo_grafico (str): Tipo de gráfico a ser gerado. Pode ser "barra" ou "linha".
 
     Retorno:
         PIL.Image: Imagem gerada do gráfico.
     """
 
+    # Transforma os dados em um DataFrame longo
     dados = []
     for absorbancia in dados_df.index:
         for amostra in dados_df.columns:
@@ -34,22 +34,48 @@ def plot_absorbancia(dados_df, tipo_grafico="barra"):
     df_plot = pd.DataFrame(dados)
     df_plot["Absorbância"] = df_plot["Absorbância"].astype(str)
 
-    plotagem = so.Plot(df_plot, x="Amostra", y="Média", color="Absorbância")
+    # Estilo visual do gráfico
+    sns.set_theme(style="whitegrid")
+    palette = sns.color_palette("viridis")
 
     plt.figure(figsize=(10, 6))
-    
+
     if tipo_grafico == "barra":
-        sns.barplot(data=df_plot, x="Amostra", y="Média", hue="Absorbância")
+        ax = sns.barplot(
+            data=df_plot,
+            x="Amostra",
+            y="Média",
+            hue="Absorbância",
+            palette=palette,
+            edgecolor="black",
+            linewidth=1.2,
+            errwidth=1.5,
+            capsize=0.1,
+            errorbar=None
+        )
+
     elif tipo_grafico == "linha":
-        sns.lineplot(data=df_plot, x="Amostra", y="Média", hue="Absorbância", marker="o")
-    
-    plt.xlabel("Amostras")
-    plt.ylabel("Absorbância (u.a.)")
+        ax = sns.lineplot(
+            data=df_plot,
+            x="Amostra",
+            y="Média",
+            hue="Absorbância",
+            palette=palette,
+            marker="o"
+        )
+
+    # Ajustes visuais
+    plt.xlabel("Amostras", fontsize=14)
+    plt.ylabel("Absorbância (u.a.)", fontsize=14)
+    plt.title("Gráfico de Absorbância", fontsize=16, weight='bold', pad=15)
+    plt.xticks(rotation=45, fontsize=12)
+    plt.yticks(fontsize=12)
     plt.legend(title="Comprimento de onda", bbox_to_anchor=(1.05, 0.5), loc='center left')
     plt.tight_layout()
 
+    # Salva e retorna imagem
     buffer = io.BytesIO()
-    plt.savefig(buffer, format="png", bbox_inches="tight")
+    plt.savefig(buffer, format="png", bbox_inches="tight", dpi=300)
     buffer.seek(0)
     plt.close()
     return Image.open(buffer)
