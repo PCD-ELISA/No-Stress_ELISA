@@ -33,7 +33,7 @@ O objetivo desse projeto é receber os dados provenientes de um leitor de Elisa,
 1. Instale o Python em seu computador. Recomendamos a versão 3.10.
 2. Instale todas as bibliotecas necessárias. No VsCode, use o comando:
 ```python
-pip install streamlit pandas pillow numpy matplotlib seaborn
+pip install -r requirements.txt
 ```
 ▶️ Executando a aplicação
 1. Digite em seu terminal:
