@@ -33,7 +33,7 @@ def plot_absorbancia(dados_df, tipo_grafico="barra"):
 
     df_plot = pd.DataFrame(dados)
 
-    plotagem = so.Plot(df_plot, x="Amostra", y="Média", color="Absorbância")
+    plotagem = so.Plot(df_plot, x="Amostra", y="Média", color="Amostra")
 
     if tipo_grafico == "barra":
         plotagem = plotagem.add(so.Bar(), so.Dodge())
