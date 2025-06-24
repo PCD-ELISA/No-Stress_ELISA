@@ -19,7 +19,6 @@ def plot_absorbancia(dados_df, tipo_grafico="barra"):
         PIL.Image: Imagem gerada do gráfico.
     """
 
-    # Transforma os dados em um DataFrame longo
     dados = []
     for absorbancia in dados_df.index:
         for amostra in dados_df.columns:
@@ -34,7 +33,6 @@ def plot_absorbancia(dados_df, tipo_grafico="barra"):
     df_plot = pd.DataFrame(dados)
     df_plot["Absorbância"] = df_plot["Absorbância"].astype(str)
 
-    # Estilo visual do gráfico
     sns.set_theme(style="whitegrid")
     palette = sns.color_palette("viridis")
 
@@ -64,7 +62,6 @@ def plot_absorbancia(dados_df, tipo_grafico="barra"):
             marker="o"
         )
 
-    # Ajustes visuais
     plt.xlabel("Amostras", fontsize=14)
     plt.ylabel("Absorbância (u.a.)", fontsize=14)
     plt.title("Gráfico de Absorbância", fontsize=16, weight='bold', pad=15)
@@ -73,7 +70,6 @@ def plot_absorbancia(dados_df, tipo_grafico="barra"):
     plt.legend(title="Comprimento de onda", bbox_to_anchor=(1.05, 0.5), loc='center left')
     plt.tight_layout()
 
-    # Salva e retorna imagem
     buffer = io.BytesIO()
     plt.savefig(buffer, format="png", bbox_inches="tight", dpi=300)
     buffer.seek(0)
