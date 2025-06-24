@@ -8,6 +8,7 @@ from gera_graficos import plot_absorbancia
 import traceback
 import io
 from PIL import Image
+from openpyxl import Workbook
 
 #Deixar barra de opções invisível
 hide_menu_style = """
@@ -159,12 +160,15 @@ elif st.session_state.pagina == "Gráfico":
     with st.expander("📊 Ver matriz final"):
         st.dataframe(st.session_state.elisa_matrix, use_container_width=True)
 
-    # Exportar como CSV
+    # Exportar como XLSX
+    excel_buffer = io.BytesIO()
+    with pd.ExcelWriter(excel_buffer, engine='openpyxl') as writer:
+    st.session_state.elisa_matrix.to_excel(writer, index=True, sheet_name='Matriz_ELISA')
     st.download_button(
-        label="📥 Baixar como CSV",
-        data=st.session_state.elisa_matrix.to_csv().encode("utf-8"),
-        file_name="matriz_elisa.csv",
-        mime="text/csv"
+        label="📥 Baixar como Excel (XLSX)",
+        data=excel_buffer.getvalue(),
+        file_name="matriz_elisa.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
     st.markdown("Ou faça upload das informações:")
     dados = st.file_uploader("""Obs.: O Excel deverá ter informações de A a H representando as linhas da placa 
