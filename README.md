@@ -28,6 +28,7 @@ Ao receber os dados, como podem ser extensos, a maneira mais fácil de trabalhar
 O objetivo desse projeto é receber os dados provenientes de um leitor de Elisa, processar os dados e plotar gráficos relevantes de uma maneira mais simples, por meio de uma interface web, onde o usuário insere os dados necessários e o trabalho bruto é realizado pelo nosso código!
 
 ## Como rodar em seu PC
+#### 👨‍💻 Rodando Localmente
 📋 Pré-requisitos:
 
 1. Instale o Python em seu computador. Recomendamos a versão 3.10.
@@ -41,6 +42,10 @@ pip install -r requirements.txt
 python -m streamlit run main.py
 ```
 2. O aplicativo deve abrir em seu navegador padrão automaticamente.
+
+#### 🌐 Rodando na Web
+
+Caso você não queira rodar localmente, você pode acessar nosso projeto pelo link: https://nostresselisa.streamlit.app/
 
 ## 👨‍🏫 Professores responsáveis
 
