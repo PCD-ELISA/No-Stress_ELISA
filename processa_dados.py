@@ -165,7 +165,8 @@ def separa_namostra(layout, dados_amostrais={}):
         para cada amostra e comprimento de onda.
     """
 
-    colunas = dataframe_interno.columns.tolist()
+    colunas = layout.columns.tolist()
+    colunas.remove('Água')
     indice = [i for i in dados_amostrais if i.startswith('A')]
     
     lista_dados = []
