@@ -84,8 +84,8 @@ if st.session_state.pagina == "Início":
     equipe = [
         {
             "nome": "Jõao Roberto B. K. Cruz",
-            "resumo": "Resumo",
-            "imagem": "images/matheus_velloso.jpg",
+            "resumo": "Cursando bacharelado em ciência e tecnologia na Ilum - Escola de Ciência ",
+            "imagem": "images/joao_roberto.jpg",
             "link": "https://github.com/RobertJbkc"
         },
         {
