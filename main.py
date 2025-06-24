@@ -85,7 +85,7 @@ if st.session_state.pagina == "Início":
         {
             "nome": "Jõao Roberto B. K. Cruz",
             "resumo": "Cursando bacharelado em ciência e tecnologia na Ilum - Escola de Ciência ",
-            "imagem": "images/joao_roberto.jpg",
+            "imagem": "images/joao_roberto.jpeg",
             "link": "https://github.com/RobertJbkc"
         },
         {
