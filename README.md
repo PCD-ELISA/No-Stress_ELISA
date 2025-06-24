@@ -29,13 +29,18 @@ O objetivo desse projeto é receber os dados provenientes de um leitor de Elisa,
 
 ## Como rodar em seu PC
 📋 Pré-requisitos:
+
 1. Instale o Python em seu computador. Recomendamos a versão 3.10.
 2. Instale todas as bibliotecas necessárias. No VsCode, use o comando:
+```python
 pip install streamlit pandas pillow numpy matplotlib seaborn
+```
 ▶️ Executando a aplicação
 1. Digite em seu terminal:
+```python
 python -m streamlit run main.py
-2. O aplicativo deve abrir em seu navegador padrão automaticamente.
+```
+3. O aplicativo deve abrir em seu navegador padrão automaticamente.
 
 ## 👨‍🏫 Professores responsáveis
 
