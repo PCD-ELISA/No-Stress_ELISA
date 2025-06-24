@@ -41,7 +41,7 @@ if st.session_state.pagina == "Início":
     with col1:
             st.image(
             "images/elisa.png",
-            caption="Leitor de placas ELISA moderno / Disponível em: https://www.biosystemsimportadora.com.br/produtos/leitora-automatica-de-absorbancia-faixa-de-comprimento-de-onda-de-340-750-nm-disco-para-5-filtros-touchscreen-colorida-microplacas-6-a-384-pocos-agitacao-incubacao-ate-50c-software-gen5-biotek-800ts/",
+            caption="Leitor de placas ELISA moderno / Disponível em: https://shorturl.at/QH8fF",
             width=200
             )
     with col2:
@@ -272,7 +272,7 @@ elif st.session_state.pagina == "Código":
     st.markdown("Para mais informações, acesse nosso repositório no Github:")
     st.markdown(
     f'<a href="{'https://github.com/PCD-ELISA/No-Stress_ELISA'}" target="_blank">'
-    '<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="250">'
+    '<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="150">'
     '</a>',
     unsafe_allow_html=True)
     st.markdown("---", unsafe_allow_html=True)
