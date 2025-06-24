@@ -40,7 +40,7 @@ pip install streamlit pandas pillow numpy matplotlib seaborn
 ```python
 python -m streamlit run main.py
 ```
-3. O aplicativo deve abrir em seu navegador padrão automaticamente.
+2. O aplicativo deve abrir em seu navegador padrão automaticamente.
 
 ## 👨‍🏫 Professores responsáveis
 
