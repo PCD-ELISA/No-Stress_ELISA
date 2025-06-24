@@ -274,7 +274,7 @@ elif st.session_state.pagina == "Código":
     f'<a href="{'https://github.com/PCD-ELISA/No-Stress_ELISA'}" target="_blank">'
     '<img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="250">'
     '</a>',
-    unsafe_allo
+    unsafe_allow_html=True)
     st.markdown("---", unsafe_allow_html=True)
         
     code_gera_graficos = '''
