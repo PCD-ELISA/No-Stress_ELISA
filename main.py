@@ -84,7 +84,7 @@ if st.session_state.pagina == "Início":
     st.header("Equipe:")
     equipe = [
         {
-            "nome": "Jõao Roberto B. K. Cruz",
+            "nome": "João Roberto B. K. Cruz",
             "resumo": "Cursando bacharelado em ciência e tecnologia na Ilum - Escola de Ciência ",
             "imagem": "images/joao_roberto2.jpeg",
             "link": "https://github.com/RobertJbkc"
