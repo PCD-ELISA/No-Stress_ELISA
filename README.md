@@ -14,8 +14,8 @@
 <!------------------------------------>
 
 ## 📝 Descrição
-#### ❓O que é leitor de ELIZA?
-O leitor de ELIZA (Enzyme-Linked Immunosorbent Assay) é um instrumento laboratorial que usa uma placa de 96 poços de microtitulação. Luz de um comprimento de onda específico incide em cada poço e, através da diferença entre a luz emitida e detectada, é medida a absorbância ou fluorescência com alta precisão.
+#### ❓O que é leitor de ELISA?
+O leitor de ELISA (Enzyme-Linked Immunosorbent Assay) é um instrumento laboratorial que usa uma placa de 96 poços de microtitulação. Luz de um comprimento de onda específico incide em cada poço e, através da diferença entre a luz emitida e detectada, é medida a absorbância ou fluorescência com alta precisão.
 
 Os resultados gerados por esse instrumento vêm (nos dispositivos que utilizamos) em uma planilha Excel que deve ser tratada para obtermos os dados finais relevantes.
 
@@ -25,7 +25,7 @@ Ao receber os dados, como podem ser extensos, a maneira mais fácil de trabalhar
 
 #### ❗Como vamos resolver esse estresse?
 
-O objetivo desse projeto é receber os dados provenientes de um leitor de ELIZA, processar os dados e plotar gráficos relevantes de uma maneira mais simples, por meio de uma interface web, onde o usuário insere os dados necessários e o trabalho bruto é realizado pelo nosso código!
+O objetivo desse projeto é receber os dados provenientes de um leitor de ELISA, processar os dados e plotar gráficos relevantes de uma maneira mais simples, por meio de uma interface web, onde o usuário insere os dados necessários e o trabalho bruto é realizado pelo nosso código!
 
 ## Como rodar em seu PC
 ### 👨‍💻 Rodando Localmente
