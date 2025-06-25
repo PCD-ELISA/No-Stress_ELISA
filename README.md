@@ -74,6 +74,10 @@ Caso você não queira rodar localmente, você pode acessar nosso projeto pelo l
   </tr>
 </table>
 
+## ⭐ Agradecimentos
+
+> Agradecemos a professora Valéria S. Marangoni e a estudante Yasmin Shimizo pelo apoio na idealização
+
 ## 🤝 Colaboradores
 
 <table>
